@@ -1,0 +1,23 @@
+import json
+import sys
+
+def report_score(a_file):
+    l = open(a_file)
+    for line in l:
+        return {line.split('\t')[0]: int(line.split('\t')[1])}
+
+def score_tweet(tweet, scores):
+    return sum(scores.get(word, 0) for word in tweet.split())
+
+
+def scores_tweet(tweet_file, scores):
+    with open(tweet_file) as f:
+        tweets = (json.loads(line).get('text', '') for line in f)
+        return [score_tweet(tweet, scores) for tweet in tweets]
+
+
+if __name__ == '__main__':
+    sent_file = sys.argv[1]
+    tweet_file = sys.argv[2]
+    scores = report_score(a_file = sent_file)
+    sys.stdout.writelines('{0}.0\n'.format(score) for score in scores_tweet(tweet_file=tweet_file, scores=scores))
